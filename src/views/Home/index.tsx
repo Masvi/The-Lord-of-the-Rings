@@ -1,13 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./index.scss";
-import { fetchMovies } from "../../api";
+
+import Movie from "../../models/Movie";
+import Card from "../../components/Card";
+import { fetchMovies } from "../../services";
 
 const Home = () => {
+  const [movieList, setMovieList] = useState<Movie[]>([]);
 
   useEffect(() => {
-    fetchMovies();
+    fetchMovies().then((data) => {
+      setMovieList(data);
+    });
   }, []);
-  return (<>home</>)
+
+  return (
+    <>
+      {movieList.map((movie) => <Card />)}
+    </>
+
+  )
 };
 
 export default Home;
