@@ -15,10 +15,14 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      {movieList.map((movie) => <Card />)}
-    </>
-
+    <div className="home">
+      <div className="home__header">
+        <h1>The Lord of the Rings movies</h1>
+      </div>
+      <div className="home__list">
+        {movieList.map((movie) => <Card />)}
+      </div>
+    </div>
   )
 };
 
