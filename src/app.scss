@@ -1,4 +1,8 @@
+@import "typeface-poppins";
+
 .app {
+  font-family: "Poppins", sans-serif;
+  
   &__header {
     background-color: #282c34;
     height: 10vh;

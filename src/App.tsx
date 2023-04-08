@@ -6,9 +6,7 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app__header">
-        The Lord of the Rings
-      </header>
+      <header className="app__header" />
       <Home />
     </div>
   );

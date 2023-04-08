@@ -1,24 +1,42 @@
 import "./index.scss";
 
-const Card = () => {
+import Movie from "../../models/Movie";
+import Award from "../../assets/award.svg";
+import MovieLogo from "../../assets/movie-logo.svg"
+
+interface Props {
+  movie: Movie,
+}
+
+const Card = (props: Props) => {
+
+  const { movie } = props;
+
   return (
     <div className="card">
-      <div className="card__cover" />
+      <div className="card__cover">
+        <img src={MovieLogo} alt="movie" />
+      </div>
       <div className="card__infos">
         <div className="card__container">
-          <h1>Title</h1>
-          <span>98min</span>
-          <p>2 wins and 2 nominations</p>
+          <h1>{movie.name}</h1>
+          <span className="card__runtime">{movie.runtimeInMinutes} min</span>
+          <div className="card__box card__box-row">
+            <img className="card__icon" src={Award} alt="award" />
+            <p className="card__awards">
+              {movie.academyAwardWins} wins and {movie.academyAwardNominations} nominations
+            </p>
+          </div>
         </div>
         <div className="card__container card__container-row">
-          <p className="card__budget">
-            Budget
-            <span>399</span>
-          </p>
-          <p className="card__revenue">
-            Revenue
-            <span>490</span>
-          </p>
+          <div className="card__box">
+            <p className="card__budget">Budget</p>
+            <span>{movie.budgetInMillions}M</span>
+          </div>
+          <div className="card__box">
+            <p className="card__budget">Revenue</p>
+            <span>{movie.boxOfficeRevenueInMillions}M</span>
+          </div>
         </div>
       </div>
     </div>
