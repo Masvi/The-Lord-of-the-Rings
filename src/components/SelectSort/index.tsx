@@ -9,8 +9,8 @@ const SelectSort = (props: Props) => {
   const { handleChangeSort } = props;
 
   return (
-    <select 
-      className="select-sort" 
+    <select
+      className="select-sort"
       onChange={(e: any) => handleChangeSort(e)}
     >
       <option value="asc">Sort by Asc</option>

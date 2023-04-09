@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react";
 
 import "./index.scss";
 import Movie from "../../models/Movie";
@@ -7,9 +7,15 @@ import { fetchMovies } from "../../services";
 import Card from "../../components/Card";
 import Header from "../../components/Header";
 
+interface Average {
+  runtime: number;
+  budget: number;
+}
+
 const Home = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [unfiltered, setUnfiltered] = useState<Movie[]>([]);
+  const [average, setAverage] = useState<Average>({ runtime: 0, budget: 0 })
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -48,11 +54,28 @@ const Home = () => {
     setMovieList([...sortedMovies])
   };
 
+  const handleAverage = (data: Movie[]) => {
+    if (data.length > 0) {
+      let runtime = data.reduce(
+        (acc, movie) => acc + movie.runtimeInMinutes,
+        0
+      );
+      let budget = data.reduce(
+        (acc, movie) => acc + movie.budgetInMillions,
+        0
+      );
+      runtime = runtime / data?.length
+      budget = budget / data?.length
+      setAverage({ runtime, budget });
+    }
+  };
+
   useEffect(() => {
     fetchMovies().then((data) => {
       setMovieList(data);
       setUnfiltered(data);
-    });
+      handleAverage(data);
+    })
   }, []);
 
   return (
@@ -60,6 +83,7 @@ const Home = () => {
       <Header
         handleChange={handleSearchChange}
         handleChangeSort={handleChangeSort}
+        average={average}
       />
       <div className="home__list">
         {(movieList as Movie[]).map((movie) =>
