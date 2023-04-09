@@ -7,13 +7,9 @@ import { fetchMovies } from "../../services";
 import Card from "../../components/Card";
 import Header from "../../components/Header";
 
-interface Props {
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => any;
-};
-
 const Home = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
-  const [unFiltered, setUnFiltered] = useState<Movie[]>([]);
+  const [unfiltered, setUnfiltered] = useState<Movie[]>([]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -28,19 +24,43 @@ const Home = () => {
       }
       return;
     }
-    setMovieList(unFiltered);
+    setMovieList(unfiltered);
+  };
+
+  const handleChangeSort = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    const sortedMovies = movieList.sort((first, second) => {
+      const movieA = first.name.toLowerCase();
+      const movieB = second.name.toLowerCase();
+
+      const firstMovie = value === 'asc' ? movieA : movieB
+      const secondMovie = value === 'asc' ? movieB : movieA
+
+      if (firstMovie > secondMovie) {
+        return 1
+      } else if (firstMovie < secondMovie) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })
+    setMovieList([...sortedMovies])
   };
 
   useEffect(() => {
     fetchMovies().then((data) => {
       setMovieList(data);
-      setUnFiltered(data);
+      setUnfiltered(data);
     });
   }, []);
 
   return (
     <div className="home">
-      <Header handleChange={handleSearchChange} />
+      <Header
+        handleChange={handleSearchChange}
+        handleChangeSort={handleChangeSort}
+      />
       <div className="home__list">
         {(movieList as Movie[]).map((movie) =>
           <Card

@@ -6,10 +6,11 @@ import SearchInput from "../SearchInput";
 
 interface Props {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => any;
+  handleChangeSort: (e: ChangeEvent<HTMLInputElement>) => any;
 }
 
 const Header = (props: Props) => {
-  const { handleChange } = props;
+  const { handleChange, handleChangeSort } = props;
 
   return (
     <div className="header">
@@ -24,7 +25,7 @@ const Header = (props: Props) => {
           debounce={300}
           placeholder="search by name"
         />
-        <SelectSort />
+        <SelectSort handleChangeSort={handleChangeSort}/>
       </div>
     </div>
   )
