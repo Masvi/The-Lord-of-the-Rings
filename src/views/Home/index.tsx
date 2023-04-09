@@ -5,6 +5,7 @@ import Movie from "../../models/Movie";
 import { fetchMovies } from "../../services";
 
 import Card from "../../components/Card";
+import Header from "../../components/Header";
 
 const Home = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
@@ -17,9 +18,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="home__header">
-        <h1>The Lord of the Rings movies</h1>
-      </div>
+      <Header />
       <div className="home__list">
         {(movieList as Movie[]).map((movie) => <Card movie={movie} />)}
       </div>
