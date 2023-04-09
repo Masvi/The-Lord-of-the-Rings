@@ -1,6 +1,14 @@
-import "./index.scss";
+import { ChangeEvent } from "react";
 
-const Header = () => {
+import "./index.scss";
+import SearchInput from "../SearchInput";
+
+interface Props {
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => any;
+}
+
+const Header = (props: Props) => {
+  const { handleChange } = props;
 
   return (
     <div className="header">
@@ -10,11 +18,11 @@ const Header = () => {
         <p>Average movie budget: M</p>
       </div>
       <div className="header__inputs">
-        <input placeholder="search by name"></input>
-        <select>
-          <option>order desc</option>
-          <option>order asc</option>
-        </select>
+        <SearchInput
+          onChange={handleChange}
+          debounce={300}
+          placeholder="search by name"
+        />
       </div>
     </div>
   )
