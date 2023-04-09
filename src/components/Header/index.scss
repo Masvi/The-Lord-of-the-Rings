@@ -1,13 +1,49 @@
 .header {
+  display: flex;
+  flex-direction: column;
+
   width: 100%;
   grid-column: span 4;
   margin-bottom: 2rem;
-  
+
+  &__inputs {
+    gap: 5px;
+  }
+
   h1 {
     font-weight: 600;
+    line-height: 30px;
   }
 
   p {
     margin: 0;
+  }
+}
+
+/* tablet */
+@media (min-width: 700px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .header__inputs {
+    display: flex;
+    align-items: flex-end;
+    width: 70%;
+  }
+}
+
+/* desktop */
+@media (min-width: 900px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .header__inputs {
+    display: flex;
+    align-items: flex-end;
+    width: 70%;
   }
 }

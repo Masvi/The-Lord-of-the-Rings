@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react";
 
 import "./index.scss";
+import SelectSort from "../SelectSort";
 import SearchInput from "../SearchInput";
 
 interface Props {
@@ -23,6 +24,7 @@ const Header = (props: Props) => {
           debounce={300}
           placeholder="search by name"
         />
+        <SelectSort />
       </div>
     </div>
   )
