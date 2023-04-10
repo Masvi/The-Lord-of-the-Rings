@@ -5,6 +5,7 @@ import Movie from "../../models/Movie";
 import { fetchMovies } from "../../services";
 
 import Card from "../../components/Card";
+import Modal from "../../components/Modal";
 import Header from "../../components/Header";
 
 interface Average {
@@ -16,6 +17,7 @@ const Home = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [unfiltered, setUnfiltered] = useState<Movie[]>([]);
   const [average, setAverage] = useState<Average>({ runtime: 0, budget: 0 })
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -70,6 +72,10 @@ const Home = () => {
     }
   };
 
+  const handleOpenModal = () => {
+    setOpenModal(!openModal);
+  };
+
   useEffect(() => {
     fetchMovies().then((data) => {
       setMovieList(data);
@@ -80,6 +86,10 @@ const Home = () => {
 
   return (
     <div className="home">
+      <Modal
+        isOpen={openModal}
+        handleClick={handleOpenModal}
+      />
       <Header
         handleChange={handleSearchChange}
         handleChangeSort={handleChangeSort}
@@ -88,6 +98,7 @@ const Home = () => {
       <div className="home__list">
         {(movieList as Movie[]).map((movie) =>
           <Card
+            handleClick={handleOpenModal}
             key={movie.name}
             movie={movie}
           />

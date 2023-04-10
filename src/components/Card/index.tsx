@@ -6,14 +6,18 @@ import MovieLogo from "../../assets/movie-logo.svg"
 
 interface Props {
   movie: Movie,
+  handleClick: () => void;
 }
 
 const Card = (props: Props) => {
 
-  const { movie } = props;
+  const { movie, handleClick } = props;
 
   return (
-    <div className="card">
+    <div 
+      className="card"
+      onClick={handleClick}
+    >
       <div className="card__cover">
         <img src={MovieLogo} alt="movie" />
       </div>
