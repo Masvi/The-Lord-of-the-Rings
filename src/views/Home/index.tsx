@@ -2,7 +2,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 import "./index.scss";
 import Movie from "../../models/Movie";
-import { fetchMovies } from "../../services";
+import Quote from "../../models/Quote";
+import { fetchMovies, fetchQuote } from "../../services";
 
 import Card from "../../components/Card";
 import Modal from "../../components/Modal";
@@ -13,11 +14,17 @@ interface Average {
   budget: number;
 }
 
+interface ModalData {
+  movie: Movie;
+  quote: Quote[];
+}
+
 const Home = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [unfiltered, setUnfiltered] = useState<Movie[]>([]);
   const [average, setAverage] = useState<Average>({ runtime: 0, budget: 0 })
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [movieData, setMovieData] = useState<ModalData>({} as ModalData);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -72,7 +79,13 @@ const Home = () => {
     }
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (movie: Movie) => {
+    const { _id } = movie;
+    if (_id) {
+      fetchQuote(_id).then((data) => {
+        setMovieData({ quote: data, movie });
+      });
+    }
     setOpenModal(!openModal);
   };
 
@@ -87,8 +100,9 @@ const Home = () => {
   return (
     <div className="home">
       <Modal
+        data={movieData}
         isOpen={openModal}
-        handleClick={handleOpenModal}
+        handleClick={() => handleOpenModal({} as Movie)}
       />
       <Header
         handleChange={handleSearchChange}
@@ -98,7 +112,7 @@ const Home = () => {
       <div className="home__list">
         {(movieList as Movie[]).map((movie) =>
           <Card
-            handleClick={handleOpenModal}
+            handleClick={() => handleOpenModal(movie)}
             key={movie.name}
             movie={movie}
           />

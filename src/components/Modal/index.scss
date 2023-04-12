@@ -27,6 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 25px;
   }
 
   &__title {
@@ -36,7 +37,16 @@
   }
 
   &__body {
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__dialog {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 200;
   }
 
   &__footer {
