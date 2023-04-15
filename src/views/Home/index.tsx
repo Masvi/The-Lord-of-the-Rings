@@ -79,8 +79,8 @@ const Home = () => {
     }
   };
 
-  const handleOpenModal = async (movie: Movie) => {
-    await setMovieData({} as ModalData);
+  const handleOpenModal = (movie: Movie) => {
+    setMovieData({} as ModalData);
 
     const { _id } = movie;
     if (_id) {
