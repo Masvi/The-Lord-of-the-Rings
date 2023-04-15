@@ -79,7 +79,9 @@ const Home = () => {
     }
   };
 
-  const handleOpenModal = (movie: Movie) => {
+  const handleOpenModal = async (movie: Movie) => {
+    await setMovieData({} as ModalData);
+
     const { _id } = movie;
     if (_id) {
       fetchQuote(_id).then((data) => {
