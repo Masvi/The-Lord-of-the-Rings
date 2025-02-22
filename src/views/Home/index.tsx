@@ -15,7 +15,6 @@ interface Average {
   budget: number;
 }
 
-
 const Home = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [unfiltered, setUnfiltered] = useState<Movie[]>([]);
@@ -94,7 +93,7 @@ const Home = () => {
       setMovieList(data);
       setUnfiltered(data);
       handleAverage(data);
-    })
+    }).catch((e) => console.log(e))
   }, []);
 
   return (
@@ -110,13 +109,13 @@ const Home = () => {
         average={average}
       />
       <div className="home__list">
-        {(movieList as Movie[]).map((movie) =>
+        {movieList.length > 0 ? (movieList).map((movie) =>
           <Card
             handleClick={() => handleOpenModal(movie)}
             key={movie.name}
             movie={movie}
           />
-        )}
+        ) : <>Loading...</>}
       </div>
     </div>
   )
