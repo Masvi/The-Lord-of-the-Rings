@@ -28,7 +28,7 @@ const Modal = (props: ModalProps) => {
           ) : quote.length > 0 ? (
             <p className="modal__dialog">"{quote[0].dialog}"</p>
           ) : (
-            <div>No speech</div>
+            <div>No speach</div>
           )}
         </div>
         <div className="modal__footer">
