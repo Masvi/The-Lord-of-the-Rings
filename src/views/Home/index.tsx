@@ -10,6 +10,8 @@ import Header from "../../components/Header";
 
 import { ModalProps } from "../../components/Modal";
 
+import { calculateMovieAverages, sortMovies } from '../../utils';
+
 interface Average {
   runtime: number;
   budget: number;
@@ -38,41 +40,9 @@ const Home = () => {
     setMovieList(unfiltered);
   };
 
-  const handleChangeSort = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    const sortedMovies = movieList.sort((first, second) => {
-      const movieA = first.name.toLowerCase();
-      const movieB = second.name.toLowerCase();
-
-      const firstMovie = value === 'asc' ? movieA : movieB
-      const secondMovie = value === 'asc' ? movieB : movieA
-
-      if (firstMovie > secondMovie) {
-        return 1
-      } else if (firstMovie < secondMovie) {
-        return -1;
-      } else {
-        return 0;
-      }
-    })
-    setMovieList([...sortedMovies])
-  };
-
-  const handleAverage = (data: Movie[]) => {
-    if (data.length > 0) {
-      let runtime = data.reduce(
-        (acc, movie) => acc + movie.runtimeInMinutes,
-        0
-      );
-      let budget = data.reduce(
-        (acc, movie) => acc + movie.budgetInMillions,
-        0
-      );
-      runtime = runtime / data?.length
-      budget = budget / data?.length
-      setAverage({ runtime, budget });
-    }
+  const handleSort = (e: ChangeEvent<HTMLInputElement>) => {
+    const sortedMovies = sortMovies({ movieList, e });
+    setMovieList(sortedMovies)
   };
 
   const handleOpenModal = (movie: Movie) => {
@@ -92,7 +62,9 @@ const Home = () => {
     fetchMovies().then((data) => {
       setMovieList(data);
       setUnfiltered(data);
-      handleAverage(data);
+      const avareges = calculateMovieAverages(data);
+      setAverage(avareges);
+
     }).catch((e) => console.log(e))
   }, []);
 
@@ -105,7 +77,7 @@ const Home = () => {
       />
       <Header
         handleChange={handleSearchChange}
-        handleChangeSort={handleChangeSort}
+        handleChangeSort={(e) => handleSort(e)}
         average={average}
       />
       <div className="home__list">
