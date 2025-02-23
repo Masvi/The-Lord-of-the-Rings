@@ -14,19 +14,19 @@ const Card = (props: Props) => {
   const { movie, handleClick } = props;
 
   return (
-    <div 
+    <div
       className="card"
       onClick={handleClick}
     >
       <div className="card__cover">
-        <img src={MovieLogo} alt="movie" />
+        <img src={MovieLogo} alt="movie" width={48} height={48} />
       </div>
       <div className="card__infos">
         <div className="card__container">
           <h1>{movie.name}</h1>
           <span className="card__runtime">{movie.runtimeInMinutes} min</span>
           <div className="card__box card__box-row">
-            <img className="card__icon" src={Award} alt="award" />
+            <img className="card__icon" src={Award} alt="award" width={20} height={20} />
             <p className="card__awards">
               {movie.academyAwardWins} wins and {movie.academyAwardNominations} nominations
             </p>
