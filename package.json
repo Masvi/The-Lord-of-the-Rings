@@ -43,6 +43,8 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^7.0.3"
+    "@babel/preset-typescript": "^7.26.0",
+    "node-sass": "^7.0.3",
+    "react-test-renderer": "^19.0.0"
   }
 }
