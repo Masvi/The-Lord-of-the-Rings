@@ -1,5 +1,5 @@
-import Movie from "../models/Movie";
-import { calculateMovieAverages, sortMovies } from "./index";
+import Movie from "../../models/Movie";
+import { calculateMovieAverages, sortMovies } from "../index";
 
 const mockData: Movie[] = [
   {
