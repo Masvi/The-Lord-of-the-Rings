@@ -23,7 +23,7 @@ const Card = (props: Props) => {
       </div>
       <div className="card__infos">
         <div className="card__container">
-          <h1>{movie.name}</h1>
+          <h1 data-testid="card-title">{movie.name}</h1>
           <span className="card__runtime">{movie.runtimeInMinutes} min</span>
           <div className="card__box card__box-row">
             <img className="card__icon" src={Award} alt="award" width={20} height={20} />

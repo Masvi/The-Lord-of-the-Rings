@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home should render correctly 1`] = `
+<div>
+  <div
+    class="home"
+    data-testid="movie-home"
+  >
+    <div
+      class="header"
+    >
+      <div
+        class="header__ave-infos"
+      >
+        <h1>
+          The Lord of the Rings movies
+        </h1>
+        <p>
+          Average movie runtime: 
+          0
+           min
+        </p>
+        <p>
+          Average movie budget: 
+          0
+           M
+        </p>
+      </div>
+      <div
+        class="header__inputs"
+      >
+        <input
+          class="search-input"
+          placeholder="search by name"
+          type="search"
+        />
+        <select
+          class="select-sort"
+        >
+          <option
+            value="asc"
+          >
+            Sort by Asc
+          </option>
+          <option
+            value="desc"
+          >
+            Sort by Desc
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="home__list"
+      data-testid="movie-list"
+    >
+      Loading...
+    </div>
+  </div>
+</div>
+`;

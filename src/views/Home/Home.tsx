@@ -69,7 +69,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home">
+    <div className="home" data-testid="movie-home">
       <Modal
         data={movieData}
         isOpen={openModal}
@@ -80,7 +80,7 @@ const Home = () => {
         handleChangeSort={(e) => handleSort(e)}
         average={average}
       />
-      <div className="home__list">
+      <div className="home__list" data-testid="movie-list">
         {movieList.length > 0 ? (movieList).map((movie) =>
           <Card
             handleClick={() => handleOpenModal(movie)}
