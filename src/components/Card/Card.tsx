@@ -17,9 +17,10 @@ const Card = (props: Props) => {
     <div
       className="card"
       onClick={handleClick}
+      data-testid="card"
     >
       <div className="card__cover">
-        <img src={MovieLogo} alt="movie" width={48} height={48} />
+        <img src={MovieLogo} alt="movie-logo" width={48} height={48} />
       </div>
       <div className="card__infos">
         <div className="card__container">

@@ -4,7 +4,7 @@ import "./index.scss";
 import Movie from "../../models/Movie";
 import { fetchMovies, fetchQuote } from "../../services";
 
-import Card from "../../components/Card";
+import { Card } from "../../components";
 import Modal from "../../components/Modal";
 import Header from "../../components/Header";
 
