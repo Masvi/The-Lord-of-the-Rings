@@ -11,7 +11,6 @@ export type ModalProps = {
     complete?: boolean;
   }
 }
-
 const Modal = (props: ModalProps) => {
   const { isOpen, onClose, data } = props;
   const { movie, quote = [], complete } = data;

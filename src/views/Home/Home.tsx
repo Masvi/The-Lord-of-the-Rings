@@ -4,10 +4,9 @@ import "./index.scss";
 import Movie from "../../models/Movie";
 import { fetchMovies, fetchQuote } from "../../services";
 
-import { Card, Header } from "../../components";
-import Modal from "../../components/Modal";
+import { Card, Header, Modal } from "../../components";
 
-import { ModalProps } from "../../components/Modal";
+import { ModalProps } from "../../components/Modal/Modal";
 
 import { calculateMovieAverages, sortMovies } from '../../utils';
 
