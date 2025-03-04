@@ -62,8 +62,7 @@ const Home = () => {
       setUnfiltered(data);
       const avareges = calculateMovieAverages(data);
       setAverage(avareges);
-
-    }).catch((e) => console.log(e))
+    });
   }, []);
 
   return (

@@ -1,8 +1,18 @@
 import { fetchMovies, fetchQuote } from "../index";
+import api from "../../api";
 
-jest.mock("../index.ts", () => ({
-  fetchMovies: jest.fn(),
-  fetchQuote: jest.fn(),
+jest.mock("../../api");
+
+const mockedApi = api as jest.Mocked<typeof api>;
+
+jest.mock("axios", () => ({
+  create: jest.fn(() => ({
+    get: jest.fn(),
+    interceptors: {
+      request: { use: jest.fn() },
+      response: { use: jest.fn() },
+    },
+  })),
 }));
 
 const mockData = {
@@ -22,24 +32,30 @@ describe("API Functions", () => {
   });
 
   test("fetchMovies should return movies", async () => {
-    (fetchMovies as jest.Mock).mockResolvedValue({ docs: mockData.docs });
-    const movies = await fetchMovies();
-    expect(movies).toMatchObject(mockData);
+    mockedApi.get.mockResolvedValueOnce({ data: mockData });
+    const result = await fetchMovies();
+
+    expect(mockedApi.get).toHaveBeenCalledWith("/v2/movie", {
+      params: { limit: 8 },
+    });
+
+    expect(result).toEqual(mockData.docs);
   });
 
   test("fetchQuote should return quotes", async () => {
-    (fetchQuote as jest.Mock).mockResolvedValue({ docs: quoteMockData.docs });
+    mockedApi.get.mockResolvedValueOnce({ data: quoteMockData });
     const quotes = await fetchQuote("movieId");
-    expect(quotes).toMatchObject(quoteMockData);
+
+    expect(quotes).toMatchObject(quoteMockData.docs);
   });
 
   test("fetchMovies should handle API error", async () => {
-    (fetchMovies as jest.Mock).mockRejectedValue(new Error("Network error"));
+    mockedApi.get.mockRejectedValue(new Error("Network error"));
     await expect(fetchMovies()).rejects.toThrow("Network error");
   });
 
   test("fetchQuote should handle API error", async () => {
-    (fetchQuote as jest.Mock).mockRejectedValue(new Error("Network error"));
+    mockedApi.get.mockRejectedValue(new Error("Network error"));
     await expect(fetchQuote("movieId")).rejects.toThrow("Network error");
   });
 });

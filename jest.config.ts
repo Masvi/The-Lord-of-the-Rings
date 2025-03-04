@@ -27,6 +27,7 @@ const config: Config.InitialOptions = {
     "setupTests.ts",
     "index.tsx",
   ],
+  transformIgnorePatterns: ["/node_modules/(?!axios)/"],
 };
 
 export default config;
