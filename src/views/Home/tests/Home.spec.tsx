@@ -1,6 +1,6 @@
 
-import { render, screen, within } from "@testing-library/react"
-import { fetchMovies } from "../../../services";
+import { render, screen, waitFor, } from "@testing-library/react"
+import { fetchMovies, fetchQuote } from "../../../services";
 
 import Home from "../Home";
 import userEvent from "@testing-library/user-event";
@@ -40,10 +40,23 @@ const mockData = {
       runtimeInMinutes: 600,
     }
   ],
+};
+
+const quoteMock = {
+  docs: [
+    {
+      character: "5cd99d4bde30eff6ebccfea0",
+      dialog: "Sauron's wrath will be terrible, his retribution swift.",
+      id: "5cd96e05de30eff6ebcce9b8",
+      movie: "5cd95395de30eff6ebccde5b",
+      _id: "5cd96e05de30eff6ebcce9b8"
+    }
+  ]
 }
 
 jest.mock('../../../services', () => ({
   fetchMovies: jest.fn(),
+  fetchQuote: jest.fn(),
 }));
 
 describe("Home", () => {
@@ -73,24 +86,71 @@ describe("Home", () => {
     expect(await screen.findByText(/290M/i)).toBeInTheDocument();
   });
 
-  test("should return avarage values correctly", async () => {
-    (fetchMovies as jest.Mock).mockResolvedValue([...mockData.docs]);
-    render(<Home />);
+  describe("Header", () => {
+    test("should return avarage values correctly", async () => {
+      (fetchMovies as jest.Mock).mockResolvedValue([...mockData.docs]);
+      render(<Home />);
 
-    expect(await screen.findByText(/Average movie runtime: 606 min/i)).toBeInTheDocument();
-    expect(await screen.findByText(/Average movie budget: 291 M/i)).toBeInTheDocument();
+      expect(await screen.findByText(/Average movie runtime: 606 min/i)).toBeInTheDocument();
+      expect(await screen.findByText(/Average movie budget: 291 M/i)).toBeInTheDocument();
+    });
+
+    test("should sort elements values correctly", async () => {
+      (fetchMovies as jest.Mock).mockResolvedValue([...mockData.docs]);
+      render(<Home />);
+
+      const selectElement = screen.getByRole('combobox');
+      const optionToSelect = screen.getByRole('option', { name: 'Sort by Desc' });
+      await userEvent.selectOptions(selectElement, optionToSelect);
+      const movieListElement = await screen.findAllByTestId('card-title');
+
+      expect(movieListElement).toHaveLength(3);
+      expect(movieListElement.map(title => title.textContent)).toEqual(['movieName 3', 'movieName 2', 'movieName']);
+    });
+
+    test("should search elements in the list correctly", async () => {
+      (fetchMovies as jest.Mock).mockResolvedValue([...mockData.docs]);
+      render(<Home />);
+
+      const searchElement = screen.getByRole('searchbox')
+      await userEvent.type(searchElement, 'movieName 3');
+      expect(searchElement).toHaveValue('movieName 3');
+
+      await waitFor(() => {
+        const movieListElement = screen.getAllByTestId('card-title');
+        expect(movieListElement).toHaveLength(1);
+      });
+
+      await waitFor(() => {
+        const movieListElement = screen.getAllByTestId('card-title');
+        expect(movieListElement.map(title => title.textContent)).toEqual(['movieName 3']);
+      });
+    });
   });
 
-  test("should sort elements values correctly", async () => {
-    (fetchMovies as jest.Mock).mockResolvedValue([...mockData.docs]);
-    render(<Home />);
+  describe("Modal", () => {
+    test("should open modal on card click and display quote correclty", async () => {
+      (fetchMovies as jest.Mock).mockResolvedValue([mockData.docs[0]]);
+      (fetchQuote as jest.Mock).mockResolvedValue([...quoteMock.docs]);
+      render(<Home />);
 
-    const selectElement = screen.getByRole('combobox');
-    const optionToSelect = screen.getByRole('option', { name: 'Sort by Desc' });
-    await userEvent.selectOptions(selectElement, optionToSelect);
-    const movieListElement = await screen.findAllByTestId('card-title');
+      const card = await screen.findByText(/movieName/i);
+      expect(card).toBeInTheDocument();
+      await userEvent.click(card);
 
-    expect(movieListElement).toHaveLength(3);
-    expect(movieListElement.map(title => title.textContent)).toEqual(['movieName 3', 'movieName 2', 'movieName']);
+      expect(screen.getByText(/"Sauron's wrath will be terrible, his retribution swift."/i)).toBeInTheDocument();
+    });
+
+    test("should open modal on card click and display empty message correclty", async () => {
+      (fetchMovies as jest.Mock).mockResolvedValue([mockData.docs[0]]);
+      (fetchQuote as jest.Mock).mockResolvedValue([]);
+      render(<Home />);
+
+      const card = await screen.findByText(/movieName/i);
+      expect(card).toBeInTheDocument();
+      await userEvent.click(card);
+
+      expect(screen.getByText(/no speach/i)).toBeInTheDocument();
+    });
   });
 });
