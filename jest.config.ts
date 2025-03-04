@@ -4,31 +4,23 @@ import { pathsToModuleNameMapper } from "ts-jest";
 
 const config: Config.InitialOptions = {
   verbose: true,
-  testRegex: "(test|spec).tsx?$",
+  testRegex: "(test|spec).(ts|tsx)?$",
   preset: "ts-jest",
   testEnvironment: "jsdom",
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: "<rootDir>/",
   }),
   transform: {
-    "^.+\\.tsx?$": [
-      "ts-jest",
-      {
-        tsconfig: "tsconfig.json",
-      },
-    ],
+    "^.+\\.(ts|tsx)$": "ts-jest",
     ".+\\.(css|scss|less|jpg|png|svg)$": "jest-transform-stub",
   },
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
-  collectCoverageFrom: [
-    "**/*.{js,jsx}",
-    "!**/node_modules/**",
-    "!**/vendor/**",
-  ],
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
+  collectCoverageFrom: ["<rootDir>/**/*.tsx", "<rootDir>/**/*.ts"],
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/src/assets/",
     "/coverage",
+    "/src/models/",
     "package.json",
     "package-lock.json",
     "reportWebVitals.ts",

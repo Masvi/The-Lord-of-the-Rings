@@ -7,7 +7,6 @@
     "paths": {
       "@app-components/*": ["src/components/*"]
     },
-
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
