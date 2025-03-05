@@ -5,7 +5,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@app-components/*": ["src/components/*"]
+      "@app-components/*": ["src/components/*"],
+      "@app-pages/*": ["src/views/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
